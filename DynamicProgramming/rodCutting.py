@@ -52,15 +52,29 @@ class rodCutting:
         return self.top_down_aux(top,len,rev)
 
 
+    def bottom_up(self,top,len):
+        rev = []
+        rev.append(0)
+        for j in range(1,len + 1):
+            q = -9999
+            for i in range(1,j+1):
+                q = max(q,top[i-1][1] + rev[j-i])
+
+            rev.append(q)
+        return rev[len]
+
+
 if __name__ == '__main__':
     #table of price = top
     top = ((1,1),(2,5),(3,8),(4,9),(5,10),(6,17),(7,17),(8,20),(9,24),(10,30))
     # top = ((1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 10),(11,11),(12,1))
-    rod_length = 9
+    rod_length = 6
     rc = rodCutting(top)
     max_revenue_naive = rc.naiveRecursiveSol(rod_length)
     max_revenue = rc.top_down(top,rod_length)
-    print(max_revenue == max_revenue_naive )
+    max_revenue_bot = rc.bottom_up(top,rod_length)
+    print(max_revenue == max_revenue_naive)
 
     print(max_revenue)
     print(max_revenue_naive)
+    print(max_revenue_bot)
